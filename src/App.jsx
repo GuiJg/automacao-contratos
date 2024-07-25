@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
+const VITE_CONTRACT_URL = import .meta.env.VITE_CONTRACT_URL
+const VITE_DOWNLOAD_URL = import .meta.env.VITE_DOWNLOAD_URL
+
 function App() {
     // const [file, setFile] = useState(null);
     const [formData, setFormData] = useState({
@@ -49,13 +52,13 @@ function App() {
     const submitContract = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/api/contrato', formData);
+            const response = await axios.post(`${VITE_CONTRACT_URL}`, formData);
             console.log('Response data:', response.data);
             toast.success("Contrato gerado com sucesso!");
 
             const filename = response.data.filename;
             console.log(`Filename for download: ${filename}`);
-            const url = `http://localhost:3000/api/download?filename=${filename}`;
+            const url = `${VITE_DOWNLOAD_URL}?filename=${filename}`;
             console.log(`Download URL: ${url}`);
             window.location.href = url;
         } catch (error) {
